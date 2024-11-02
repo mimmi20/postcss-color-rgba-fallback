@@ -1,16 +1,17 @@
+/* global console */
 /**
  * Module dependencies.
  */
-const valueParser = require("postcss-value-parser")
-const rgbToHex = require("rgb-hex")
+import valueParser from 'postcss-value-parser';
+import rgbToHex from 'rgb-hex';
 
 /**
  * Calculate the color of a chanel
  * based upon two 0-255 colors and a 0-1 alpha value
  */
 function calcChannel(backgroundColor, foregroundColor, alpha) {
-  const value = backgroundColor + (foregroundColor - backgroundColor) * alpha
-  return Math.round(value)
+  const value = backgroundColor + (foregroundColor - backgroundColor) * alpha;
+  return Math.round(value);
 }
 
 /**
@@ -25,116 +26,88 @@ function calculateRGB(backgroundColor, foregroundColor) {
       calcChannel(backgroundColor[0], foregroundColor[0], foregroundColor[3]),
       calcChannel(backgroundColor[1], foregroundColor[1], foregroundColor[3]),
       calcChannel(backgroundColor[2], foregroundColor[2], foregroundColor[3]),
-    ]
-  }
-  else {
-    return [
-      foregroundColor[0],
-      foregroundColor[1],
-      foregroundColor[2],
-    ]
+    ];
+  } else {
+    return [foregroundColor[0], foregroundColor[1], foregroundColor[2]];
   }
 }
 
 /**
  * PostCSS plugin to transform rgba() to hexadecimal
  */
-module.exports = function(options = {}) {
+const plugin = (options = {}) => {
+  const properties = options.properties || ['background-color', 'background', 'color', 'border', 'border-color', 'outline', 'outline-color'];
 
-  const properties = options.properties || [
-    "background-color",
-    "background",
-    "color",
-    "border",
-    "border-color",
-    "outline",
-    "outline-color",
-  ]
+  const backgroundColor = options.backgroundColor || null;
 
-  const backgroundColor = options.backgroundColor || null
-
-  let oldie = options.oldie
+  let { oldie } = options;
   if (oldie === true) {
-    oldie = [
-      "background-color",
-      "background",
-    ]
-  }
-  else if (!Array.isArray(oldie)) {
-    oldie = false
+    oldie = ['background-color', 'background'];
+  } else if (!Array.isArray(oldie)) {
+    oldie = false;
   }
 
   return {
-    postcssPlugin: "postcss-color-rgba-fallback",
-    Declaration(declaration, {decl}) {
-      if (!declaration.value ||
-        declaration.value.indexOf("rgba") === -1 ||
-          properties.indexOf(declaration.prop) === -1
-      ) {
-        return
+    postcssPlugin: 'postcss-color-rgba-fallback',
+    Declaration(declaration, { decl }) {
+      if (!declaration.value || declaration.value.indexOf('rgba') === -1 || properties.indexOf(declaration.prop) === -1) {
+        return;
       }
 
       // if previous prop equals current prop
       // no need fallback
-      if (
-        declaration.prev() &&
-        declaration.prev().prop === declaration.prop
-      ) {
-        return
+      if (declaration.prev() && declaration.prev().prop === declaration.prop) {
+        return;
       }
 
-      let hex
-      let alpha
-      const value = valueParser(declaration.value).walk(function(node) {
-        const nodes = node.nodes
-        if (node.type === "function" && node.value === "rgba") {
-          try {
-            alpha = parseFloat(nodes[6].value)
-            const RGB = calculateRGB(backgroundColor, [
-              parseInt(nodes[0].value, 10),
-              parseInt(nodes[2].value, 10),
-              parseInt(nodes[4].value, 10),
-              alpha,
-            ])
-            hex = rgbToHex.apply(null, RGB)
-            node.type = "word"
-            node.value = "#" + hex
+      let hex;
+      let alpha;
+      const value = valueParser(declaration.value)
+        .walk(function (node) {
+          const { nodes } = node;
+          if (node.type === 'function' && node.value === 'rgba') {
+            try {
+              alpha = parseFloat(nodes[6].value);
+
+              const RGB = calculateRGB(backgroundColor, [parseInt(nodes[0].value, 10), parseInt(nodes[2].value, 10), parseInt(nodes[4].value, 10), alpha]);
+              hex = rgbToHex.apply(null, RGB);
+
+              node.type = 'word';
+              node.value = '#' + hex;
+            } catch (e) {
+              console.error(e);
+
+              return false;
+            }
+
+            return false;
           }
-          catch (e) {
-            return false
-          }
-          return false
-        }
-      }).toString()
+        })
+        .toString();
 
       if (value !== declaration.value) {
-        declaration.cloneBefore({value: value})
+        declaration.cloneBefore({ value: value });
 
-        if (
-          oldie && oldie.indexOf(declaration.prop) !== -1 &&
-          0 < alpha && alpha < 1
-        ) {
-          hex = "#" + Math.round(alpha * 255).toString(16) + hex
-          const ieFilter = [
-            "progid:DXImageTransform.Microsoft.gradient(startColorStr=",
-            hex,
-            ",endColorStr=",
-            hex,
-            ")",
-          ].join("")
+        if (oldie && oldie.indexOf(declaration.prop) !== -1 && 0 < alpha && alpha < 1) {
+          hex = '#' + Math.round(alpha * 255).toString(16) + hex;
+          const ieFilter = ['progid:DXImageTransform.Microsoft.gradient(startColorStr=', hex, ',endColorStr=', hex, ')'].join('');
           const gteIE8 = decl({
-            prop: "-ms-filter", value: "\"" + ieFilter + "\"",
-          })
+            prop: '-ms-filter',
+            value: '"' + ieFilter + '"',
+          });
           const ltIE8 = decl({
-            prop: "filter", value: ieFilter,
-          })
+            prop: 'filter',
+            value: ieFilter,
+          });
 
-          declaration.parent.insertBefore(declaration, gteIE8)
-          declaration.parent.insertBefore(declaration, ltIE8)
+          declaration.parent.insertBefore(declaration, gteIE8);
+          declaration.parent.insertBefore(declaration, ltIE8);
         }
       }
     },
-  }
-}
+  };
+};
 
-module.exports.postcss = true
+plugin.postcss = true;
+
+export default plugin;

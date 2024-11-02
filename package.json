@@ -21,21 +21,29 @@
     "index.js"
   ],
   "dependencies": {
-    "postcss-value-parser": "^4.1.0",
-    "rgb-hex": "^3.0.0"
+    "postcss-value-parser": "^4.2.0",
+    "rgb-hex": "^4.1.0"
   },
   "devDependencies": {
-    "css-whitespace": "^1.1.0",
-    "eslint": "^7.26.0",
-    "postcss": "^8.0.0",
+    "css-whitespace": "^1.1.1",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "postcss": "^8.4.47",
+    "prettier": "^3.3.3",
     "tap-spec": "^5.0.0",
-    "tape": "^5.2.2"
+    "tape": "^5.9.0"
   },
   "peerDependencies": {
     "postcss": "^8.0.0"
   },
   "scripts": {
-    "lint": "eslint . --ignore-path .gitignore",
-    "test": "npm run lint && tape test/*.js | tap-spec"
-  }
+    "test": "tape test/*.js | tap-spec",
+    "prettier": "prettier --config prettier.config.mjs --check index.js test/index.js eslint.config.mjs prettier.config.mjs",
+    "prettier-fix": "prettier --config prettier.config.mjs --write index.js test/index.js eslint.config.mjs prettier.config.mjs",
+    "lint": "eslint . --config eslint.config.mjs",
+    "lint-fix": "eslint . --config eslint.config.mjs --fix"
+  },
+  "type": "module"
 }
