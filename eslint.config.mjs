@@ -1,10 +1,14 @@
 import eslint from '@eslint/js';
 import prettierConfig from 'eslint-config-prettier';
 import prettier from 'eslint-plugin-prettier';
+import pluginSecurity from 'eslint-plugin-security';
+import pluginPromise from 'eslint-plugin-promise';
 
 export default [
   eslint.configs.recommended,
   prettierConfig,
+  pluginSecurity.configs.recommended,
+  pluginPromise.configs['flat/recommended'],
   {
     plugins: {
       prettier: prettier,
