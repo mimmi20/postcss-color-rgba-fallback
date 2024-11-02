@@ -60,7 +60,7 @@ default: `
   "border",
   "border-color",
   "outline",
-  "outline-color ]
+  "outline-color" ]
 `
 
 Allows you to specify your whitelist of properties.
