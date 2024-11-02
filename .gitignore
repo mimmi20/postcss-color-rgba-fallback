@@ -2,3 +2,4 @@ test/fixtures/*.actual.css
 node_modules
 .DS_Store
 *.log
+.idea/
