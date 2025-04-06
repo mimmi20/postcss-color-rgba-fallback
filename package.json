@@ -50,5 +50,8 @@
     "eslint": "eslint . --config eslint.config.mjs",
     "eslint-fix": "eslint . --config eslint.config.mjs --fix"
   },
-  "type": "module"
+  "type": "module",
+  "engines": {
+    "node": "^20.19.0 || ^22.12.0 || >=23.1.0"
+  }
 }
