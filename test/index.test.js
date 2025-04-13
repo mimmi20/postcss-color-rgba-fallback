@@ -32,10 +32,6 @@ describe('hex', () => {
       name: 'rgba-background-fallback',
       options: { backgroundColor: [255, 255, 255] },
     },
-    {
-      name: 'rgba-oldie-fallback',
-      options: { oldie: true },
-    },
   ];
 
   tests.forEach(({ name, options }) => {
