@@ -37,26 +37,26 @@ function calculateRGB(backgroundColor, foregroundColor) {
  */
 const plugin = (options = {}) => {
   const properties = options.properties || ['background-color', 'background', 'color', 'border', 'border-color', 'outline', 'outline-color'];
-
   const backgroundColor = options.backgroundColor || null;
 
-  let { oldie } = options;
-  if (oldie === true) {
-    oldie = ['background-color', 'background'];
-  } else if (!Array.isArray(oldie)) {
-    oldie = false;
-  }
+  const visited = new WeakSet();
 
   return {
     postcssPlugin: 'postcss-color-rgba-fallback',
-    Declaration(declaration, { decl }) {
+    Declaration(declaration) {
+      if (visited.has(declaration)) {
+        return;
+      }
+
       if (!declaration.value || declaration.value.indexOf('rgba') === -1 || properties.indexOf(declaration.prop) === -1) {
+        visited.add(declaration);
         return;
       }
 
       // if previous prop equals current prop
       // no need fallback
       if (declaration.prev() && declaration.prev().prop === declaration.prop) {
+        visited.add(declaration);
         return;
       }
 
@@ -87,23 +87,9 @@ const plugin = (options = {}) => {
 
       if (value !== declaration.value) {
         declaration.cloneBefore({ value: value });
-
-        if (oldie && oldie.indexOf(declaration.prop) !== -1 && 0 < alpha && alpha < 1) {
-          hex = '#' + Math.round(alpha * 255).toString(16) + hex;
-          const ieFilter = ['progid:DXImageTransform.Microsoft.gradient(startColorStr=', hex, ',endColorStr=', hex, ')'].join('');
-          const gteIE8 = decl({
-            prop: '-ms-filter',
-            value: '"' + ieFilter + '"',
-          });
-          const ltIE8 = decl({
-            prop: 'filter',
-            value: ieFilter,
-          });
-
-          declaration.parent.insertBefore(declaration, gteIE8);
-          declaration.parent.insertBefore(declaration, ltIE8);
-        }
       }
+
+      visited.add(declaration);
     },
   };
 };
