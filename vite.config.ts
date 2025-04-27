@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitest/config';
 import { resolveToEsbuildTarget } from 'esbuild-plugin-browserslist';
 import browserslist from 'browserslist';
-import { resolve } from 'path';
-import { readFileSync } from 'fs';
+import { resolve } from 'node:path';
+import { readFileSync } from 'node:fs';
 
 const target = resolveToEsbuildTarget(browserslist('defaults'), {
   printUnknownTargets: false,
