@@ -8,6 +8,11 @@ import rgbToHex from 'rgb-hex';
 /**
  * Calculate the color of a chanel
  * based upon two 0-255 colors and a 0-1 alpha value
+ *
+ * @param {number} backgroundColor
+ * @param {number} foregroundColor
+ * @param {number} alpha
+ * @return {number}
  */
 function calcChannel(backgroundColor, foregroundColor, alpha) {
   const value = backgroundColor + (foregroundColor - backgroundColor) * alpha;
@@ -19,6 +24,10 @@ function calcChannel(backgroundColor, foregroundColor, alpha) {
  * it calculates the color of the values combined into a single rgb array
  * If there is no background color
  *   strips off the alpha value from the foreground
+ * @param {number[]} backgroundColor
+ * @param {number[]} foregroundColor
+ *
+ * @return {number[]}
  */
 function calculateRGB(backgroundColor, foregroundColor) {
   if (backgroundColor) {
@@ -27,9 +36,9 @@ function calculateRGB(backgroundColor, foregroundColor) {
       calcChannel(backgroundColor[1], foregroundColor[1], foregroundColor[3]),
       calcChannel(backgroundColor[2], foregroundColor[2], foregroundColor[3]),
     ];
-  } else {
-    return [foregroundColor[0], foregroundColor[1], foregroundColor[2]];
   }
+
+  return [foregroundColor[0], foregroundColor[1], foregroundColor[2]];
 }
 
 /**
@@ -55,7 +64,7 @@ const plugin = (options = {}) => {
 
       // if previous prop equals current prop
       // no need fallback
-      if (declaration.prev() && declaration.prev().prop === declaration.prop) {
+      if (declaration.prev() && declaration.prev()?.prop === declaration.prop) {
         visited.add(declaration);
         return;
       }
