@@ -73,7 +73,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['{src,test}/*.{js,ts}', 'eslint.config.ts', 'prettier.config.ts', 'vite.config.ts'],
+    files: ['{src,test}/*.{js,ts}', 'eslint.config.mjs', 'prettier.config.mjs', 'vite.config.ts'],
     languageOptions: {
       sourceType: 'module',
     },

@@ -117,8 +117,8 @@
       "files": [
         "src/*.js",
         "test/*.ts",
-        "eslint.config.ts",
-        "prettier.config.ts",
+        "eslint.config.mjs",
+        "prettier.config.mjs",
         "vite.config.ts"
       ],
       "languageOptions": {
