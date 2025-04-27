@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 import postcss from 'postcss';
-import plugin from '../index.js';
+import plugin from '../src/index.js';
 import { describe, it, expect } from 'vitest';
 
 function filename(name) {

@@ -44,6 +44,8 @@ jobs:
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
       skip-php-install: true
       skip-npm-install: false
+      skip-nasm-install: true
+      skip-libimagequant-install: true
 
   analytics:
     name: "Project Analysis"
@@ -90,6 +92,50 @@ jobs:
       ENV_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       ENV_STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
+  build-with-vite:
+    name: "Build with vite"
+
+    needs: "tests"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-24.04"
+
+        node-version:
+          - "22"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "install libimagequant-dev"
+        run: "sudo apt-get install libimagequant-dev -y"
+
+      - name: "Use Node.js ${{ matrix.node-version }}"
+        uses: "actions/setup-node@v4"
+        with:
+          node-version: "${{ matrix.node-version }}"
+
+      - name: "install dependencies"
+        run: "npm install"
+
+      - name: "build"
+        run: "npm run build"
+
   # This is a meta job to avoid to have to constantly change the protection rules
   # whenever we touch the matrix.
   tests-status:
@@ -101,6 +147,7 @@ jobs:
 
     needs:
       - "tests"
+      - "build-with-vite"
 
     steps:
       - name: Successful run
