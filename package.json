@@ -43,7 +43,7 @@
     "eslint-plugin-promise": "^7.2.1",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-unused-imports": "^4.1.4",
-    "oxlint": "^0.16.9",
+    "oxlint": "^0.16.10",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
     "rollup": "^4.40.2",
