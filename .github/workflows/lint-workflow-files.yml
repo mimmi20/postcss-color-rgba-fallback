@@ -5,6 +5,9 @@ on:
     paths:
       - ".github/**"
 
+permissions:
+  contents: read
+
 jobs:
   actionlint:
     uses: "mimmi20/ci/.github/workflows/lint-actions.yml@8.3"
@@ -17,7 +20,7 @@ jobs:
   lint-status:
     name: "Lint Status"
 
-    runs-on: "ubuntu-24.04"
+    runs-on: "ubuntu-latest"
 
     if: always()
 
