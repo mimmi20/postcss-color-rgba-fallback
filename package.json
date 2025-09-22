@@ -30,7 +30,7 @@
     "@typescript-eslint/eslint-plugin": "^8.43.0",
     "@typescript-eslint/parser": "^8.43.0",
     "@vitest/coverage-istanbul": "^3.2.4",
-    "browserslist": "4.26.0",
+    "browserslist": "4.26.2",
     "css-whitespace": "^1.1.1",
     "esbuild": "~0.25.9",
     "esbuild-plugin-browserslist": "^1.0.1",
