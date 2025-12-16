@@ -56,6 +56,14 @@ jobs:
   analytics:
     name: "Project Analysis"
 
+    permissions:
+      security-events: write
+      id-token: write
+      contents: read
+      issues: read
+      pull-requests: read
+      checks: read
+
     needs: "install"
 
     uses: "mimmi20/ci/.github/workflows/analytics.yml@8.4"
