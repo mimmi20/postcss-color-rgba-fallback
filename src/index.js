@@ -79,7 +79,7 @@ const plugin = (options = {}) => {
               alpha = parseFloat(nodes[6].value);
 
               const RGB = calculateRGB(backgroundColor, [parseInt(nodes[0].value, 10), parseInt(nodes[2].value, 10), parseInt(nodes[4].value, 10), alpha]);
-              hex = rgbToHex.apply(null, RGB);
+              hex = rgbToHex(...RGB);
 
               node.type = 'word';
               node.value = '#' + hex;
