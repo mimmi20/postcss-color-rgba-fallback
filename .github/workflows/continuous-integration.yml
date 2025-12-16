@@ -10,6 +10,10 @@ on:
 
 permissions:
   contents: read
+  security-events: read
+  issues: read
+  pull-requests: read
+  checks: read
 
 concurrency:
   group: "${{ github.event_name }}-${{ github.workflow }}-${{ github.head_ref || github.run_id }}-${{ github.ref }}"
@@ -46,9 +50,19 @@ jobs:
       skip-npm-install: false
       skip-nasm-install: true
       skip-libimagequant-install: true
+      skip-librabbitmq-install: true
+      skip-libgif-install: true
 
   analytics:
     name: "Project Analysis"
+
+    permissions:
+      security-events: write
+      id-token: write
+      contents: read
+      issues: read
+      pull-requests: read
+      checks: read
 
     needs: "install"
 
@@ -64,6 +78,12 @@ jobs:
       skip-eslint: false
       skip-stylelint: true
       skip-prettier: false
+      skip-nasm-install: true
+      skip-libimagequant-install: true
+      skip-librabbitmq-install: true
+      skip-libgif-install: true
+      skip-oxlint: false
+      use-code-scanning: false
       phpcs-options: ""
 
   tests:
@@ -83,10 +103,15 @@ jobs:
       skip-phpunit: true
       skip-vitest: false
       skip-stryker: true
+      skip-nasm-install: true
+      skip-libimagequant-install: true
+      skip-librabbitmq-install: true
+      skip-libgif-install: true
       upload-codecov: false
       upload-codeclimate: false
       upload-coveralls: false
       upload-flag: ""
+      use-phpstan: false
     secrets:
       ENV_CODECLIMATE_API_KEY: ${{ secrets.CODECLIMATE_API_KEY }}
       ENV_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
