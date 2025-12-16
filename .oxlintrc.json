@@ -5,7 +5,6 @@
     "typescript"
   ],
   "rules": {
-    "prettier/prettier": "error",
     "array-callback-return": "error",
     "no-empty": [
       "error",
