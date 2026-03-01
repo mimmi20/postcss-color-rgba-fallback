@@ -7,3 +7,4 @@ node_modules
 junit-report.xml
 /dist
 *.config.js
+package-lock.json
