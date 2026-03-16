@@ -78,5 +78,8 @@
       "require": "./dist/index.cjs.js"
     },
     "./package.json": "./package.json"
+  },
+  "overrides": {
+    "vite": "^7.0.0"
   }
 }
