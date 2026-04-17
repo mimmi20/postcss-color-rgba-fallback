@@ -5,8 +5,9 @@ import pluginSecurity from 'eslint-plugin-security';
 import pluginPromise from 'eslint-plugin-promise';
 import tseslint from 'typescript-eslint';
 import unusedImports from 'eslint-plugin-unused-imports';
-import importPlugin from 'eslint-plugin-import';
 import oxlint from 'eslint-plugin-oxlint';
+import depend from 'eslint-plugin-depend';
+import { importX } from 'eslint-plugin-import-x';
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -14,8 +15,9 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   pluginSecurity.configs.recommended,
   pluginPromise.configs['flat/recommended'],
-  importPlugin.flatConfigs.recommended,
   ...oxlint.buildFromOxlintConfigFile('./.oxlintrc.json'),
+  importX.flatConfigs.recommended,
+  importX.flatConfigs.typescript,
   {
     plugins: {
       prettier: prettier,
@@ -64,12 +66,27 @@ export default tseslint.config(
       quotes: ['error', 'single', { avoidEscape: true }],
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unsafe-function-type': 'off',
+      'import-x/no-dynamic-require': 'warn',
+      'import-x/no-nodejs-modules': 'warn',
     },
     settings: {
       'import/resolver': {
         typescript: true,
         node: true,
       },
+    },
+  },
+  {
+    plugins: {
+      depend,
+    },
+    rules: {
+      'depend/ban-dependencies': [
+        'error',
+        {
+          presets: ['native', 'microutilities', 'preferred'],
+        },
+      ],
     },
   },
   {
