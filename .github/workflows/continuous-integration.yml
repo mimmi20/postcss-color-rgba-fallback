@@ -115,7 +115,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v6"
+        uses: "actions/checkout@v7"
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
@@ -126,7 +126,7 @@ jobs:
         run: "sudo apt-get install libimagequant-dev -y"
 
       - name: "Use Node.js ${{ matrix.node-version }}"
-        uses: "actions/setup-node@v6"
+        uses: "actions/setup-node@v6.4.0"
         with:
           node-version: "${{ matrix.node-version }}"
 
