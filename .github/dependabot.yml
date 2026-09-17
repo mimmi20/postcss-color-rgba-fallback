@@ -44,6 +44,8 @@ updates:
         versions: [ ">=7.0.0" ]
       - dependency-name: "@vitest/coverage-istanbul"
         versions: [ ">=5.0.0" ]
+      - dependency-name: "vitest"
+        versions: [ ">=5.0.0" ]
 
     # Disable rebasing for all pull requests
     rebase-strategy: "disabled"
