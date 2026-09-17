@@ -29,7 +29,7 @@
     "@types/node": "^26.5.1",
     "@typescript-eslint/eslint-plugin": "^8.70.0",
     "@typescript-eslint/parser": "^8.70.0",
-    "@vitest/coverage-istanbul": "^5.0.0",
+    "@vitest/coverage-istanbul": "^4.1.11",
     "browserslist": "4.28.9",
     "css-whitespace": "^1.1.1",
     "esbuild": "~0.28.2",
