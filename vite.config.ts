@@ -1,12 +1,6 @@
 import { defineConfig } from 'vitest/config';
-import { resolveToEsbuildTarget } from 'esbuild-plugin-browserslist';
-import browserslist from 'browserslist';
 import { resolve } from 'node:path';
 import { readFileSync } from 'node:fs';
-
-const target = resolveToEsbuildTarget(browserslist('defaults'), {
-  printUnknownTargets: false,
-});
 
 const pkg = JSON.parse(readFileSync(resolve('package.json'), 'utf-8'));
 const dependencies = Object.keys(pkg.dependencies || {});
@@ -36,7 +30,6 @@ export default defineConfig({
     testTimeout: 20000,
   },
   build: {
-    target: target,
     outDir: 'dist', // relative to the `root` folder
     emptyOutDir: true,
     copyPublicDir: false,
