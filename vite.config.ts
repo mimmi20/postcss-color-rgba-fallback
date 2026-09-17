@@ -14,7 +14,7 @@ const peerDependencies = Object.keys(pkg.peerDependencies || {});
 
 export default defineConfig({
   appType: 'custom',
-  root: __dirname,
+  root: import.meta.dirname,
   test: {
     include: ['test/*.test.js'],
     setupFiles: ['test/setup.ts'],

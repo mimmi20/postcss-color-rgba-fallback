@@ -26,10 +26,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
-    "@types/node": "^26.5.0",
+    "@types/node": "^26.5.1",
     "@typescript-eslint/eslint-plugin": "^8.70.0",
     "@typescript-eslint/parser": "^8.70.0",
-    "@vitest/coverage-istanbul": "^4.1.11",
+    "@vitest/coverage-istanbul": "^5.0.0",
     "browserslist": "4.28.9",
     "css-whitespace": "^1.1.1",
     "esbuild": "~0.28.2",
@@ -51,6 +51,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.0",
+    "vite": "^8.3.0",
     "vitest": "^5.0.0"
   },
   "peerDependencies": {
@@ -81,6 +82,6 @@
     "./package.json": "./package.json"
   },
   "overrides": {
-    "vite": "^7.0.0"
+    "vite": "$vite"
   }
 }
