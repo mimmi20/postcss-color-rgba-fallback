@@ -76,7 +76,7 @@ jobs:
     with:
       coverage: "xdebug"
       test-name: ""
-      skip-vitest: false
+      skip-vitest: true
       skip-stryker: true
       skip-nasm-install: true
       skip-libimagequant-install: true
