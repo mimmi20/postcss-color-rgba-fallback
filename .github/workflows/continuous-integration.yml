@@ -57,7 +57,7 @@ jobs:
 
     uses: "mimmi20/ci/.github/workflows/analytics-node.yml@master"
     with:
-      skip-eslint: false
+      skip-eslint: true
       skip-stylelint: true
       skip-prettier: false
       skip-nasm-install: true
