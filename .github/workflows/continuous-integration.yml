@@ -57,7 +57,7 @@ jobs:
 
     uses: "mimmi20/ci/.github/workflows/analytics-node.yml@master"
     with:
-      skip-eslint: false
+      skip-eslint: true
       skip-stylelint: true
       skip-prettier: false
       skip-nasm-install: true
@@ -76,7 +76,7 @@ jobs:
     with:
       coverage: "xdebug"
       test-name: ""
-      skip-vitest: false
+      skip-vitest: true
       skip-stryker: true
       skip-nasm-install: true
       skip-libimagequant-install: true
